@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="udp_transport">
+      <UniqueIdentifier>{61f601f2-0050-4eff-80f2-730c48510b54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="udp_transport\interface">
+      <UniqueIdentifier>{56dc3398-7d95-451e-8139-4c060a961338}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="udp_transport\source">
+      <UniqueIdentifier>{14c97c12-f317-4fbe-a5f3-f37774fcb17b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="udp_transport\source\_excluded_files">
+      <UniqueIdentifier>{2ab6546c-febc-4473-9653-a9f8f5b89064}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="udp_transport\interface\udp_transport.h">
+      <Filter>udp_transport\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="udp_transport\source\traffic_control_windows.h">
+      <Filter>udp_transport\source</Filter>
+    </ClInclude>
+    <ClInclude Include="udp_transport\source\udp_socket2_manager_windows.h">
+      <Filter>udp_transport\source</Filter>
+    </ClInclude>
+    <ClInclude Include="udp_transport\source\udp_socket2_windows.h">
+      <Filter>udp_transport\source</Filter>
+    </ClInclude>
+    <ClInclude Include="udp_transport\source\udp_socket_manager_wrapper.h">
+      <Filter>udp_transport\source</Filter>
+    </ClInclude>
+    <ClInclude Include="udp_transport\source\udp_socket_wrapper.h">
+      <Filter>udp_transport\source</Filter>
+    </ClInclude>
+    <ClInclude Include="udp_transport\source\udp_transport_impl.h">
+      <Filter>udp_transport\source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="udp_transport\source\traffic_control_windows.cc">
+      <Filter>udp_transport\source</Filter>
+    </ClCompile>
+    <ClCompile Include="udp_transport\source\udp_socket2_manager_windows.cc">
+      <Filter>udp_transport\source</Filter>
+    </ClCompile>
+    <ClCompile Include="udp_transport\source\udp_socket2_windows.cc">
+      <Filter>udp_transport\source</Filter>
+    </ClCompile>
+    <ClCompile Include="udp_transport\source\udp_socket_manager_wrapper.cc">
+      <Filter>udp_transport\source</Filter>
+    </ClCompile>
+    <ClCompile Include="udp_transport\source\udp_socket_wrapper.cc">
+      <Filter>udp_transport\source</Filter>
+    </ClCompile>
+    <ClCompile Include="udp_transport\source\udp_transport_impl.cc">
+      <Filter>udp_transport\source</Filter>
+    </ClCompile>
+    <ClCompile Include="udp_transport\source\udp_socket_manager_posix.cc">
+      <Filter>udp_transport\source\_excluded_files</Filter>
+    </ClCompile>
+    <ClCompile Include="udp_transport\source\udp_socket_posix.cc">
+      <Filter>udp_transport\source\_excluded_files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="modules.gyp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="udp_transport\source\udp_socket_manager_posix.h">
+      <Filter>udp_transport\source\_excluded_files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="udp_transport\source\udp_socket_posix.h">
+      <Filter>udp_transport\source\_excluded_files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

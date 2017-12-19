@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="audio_conference_mixer">
+      <UniqueIdentifier>{cb77e570-855b-4b0f-95c4-8c9cc85ab210}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio_conference_mixer\interface">
+      <UniqueIdentifier>{a43bf189-4253-4238-8f27-7a711148dc01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio_conference_mixer\source">
+      <UniqueIdentifier>{30a52084-b31f-48d5-9a87-cfe237cfb8e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio_conference_mixer\source\_excluded_files">
+      <UniqueIdentifier>{357a8a1f-aadf-4970-8200-6f4eeaa5e2e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="audio_conference_mixer\interface\audio_conference_mixer.h">
+      <Filter>audio_conference_mixer\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_conference_mixer\interface\audio_conference_mixer_defines.h">
+      <Filter>audio_conference_mixer\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_conference_mixer\source\audio_conference_mixer_impl.h">
+      <Filter>audio_conference_mixer\source</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_conference_mixer\source\audio_frame_manipulator.h">
+      <Filter>audio_conference_mixer\source</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_conference_mixer\source\level_indicator.h">
+      <Filter>audio_conference_mixer\source</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_conference_mixer\source\memory_pool.h">
+      <Filter>audio_conference_mixer\source</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_conference_mixer\source\memory_pool_win.h">
+      <Filter>audio_conference_mixer\source</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_conference_mixer\source\time_scheduler.h">
+      <Filter>audio_conference_mixer\source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="audio_conference_mixer\source\audio_conference_mixer_impl.cc">
+      <Filter>audio_conference_mixer\source</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_conference_mixer\source\audio_frame_manipulator.cc">
+      <Filter>audio_conference_mixer\source</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_conference_mixer\source\level_indicator.cc">
+      <Filter>audio_conference_mixer\source</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_conference_mixer\source\time_scheduler.cc">
+      <Filter>audio_conference_mixer\source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="modules.gyp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="audio_conference_mixer\source\memory_pool_posix.h">
+      <Filter>audio_conference_mixer\source\_excluded_files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

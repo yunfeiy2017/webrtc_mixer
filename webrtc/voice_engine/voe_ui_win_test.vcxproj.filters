@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="test">
+      <UniqueIdentifier>{2e7a1a50-3403-4660-bd1b-11789bf8f48f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test\win_test">
+      <UniqueIdentifier>{f73391fe-e7b2-4b80-a932-af91ee1add96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test\win_test\res">
+      <UniqueIdentifier>{3a13c691-b720-414b-b333-1abb72c9fa22}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="test\win_test\Resource.h">
+      <Filter>test\win_test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\win_test\stdafx.h">
+      <Filter>test\win_test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\win_test\WinTest.h">
+      <Filter>test\win_test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\win_test\WinTestDlg.h">
+      <Filter>test\win_test</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="test\win_test\stdafx.cc">
+      <Filter>test\win_test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\win_test\WinTest.cc">
+      <Filter>test\win_test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\win_test\WinTestDlg.cc">
+      <Filter>test\win_test</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="test\win_test\WinTest.rc">
+      <Filter>test\win_test</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="test\win_test\res\WinTest.ico">
+      <Filter>test\win_test\res</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test\win_test\res\WinTest.rc2">
+      <Filter>test\win_test\res</Filter>
+    </None>
+    <None Include="voice_engine.gyp" />
+  </ItemGroup>
+</Project>

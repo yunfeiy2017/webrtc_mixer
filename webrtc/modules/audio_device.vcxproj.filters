@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="audio_device">
+      <UniqueIdentifier>{bd5fba3f-3c05-4e40-8bad-559733e6df53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio_device\dummy">
+      <UniqueIdentifier>{2d4a13d6-a1a4-4caf-b12b-be42916c0185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio_device\win">
+      <UniqueIdentifier>{7119ab8f-6e20-40ff-962b-4c2b40cc69e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio_device\include">
+      <UniqueIdentifier>{2f0d1c9f-c577-41cb-a22b-687383ebaa53}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="audio_device\audio_device_buffer.cc">
+      <Filter>audio_device</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_device\audio_device_generic.cc">
+      <Filter>audio_device</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_device\audio_device_impl.cc">
+      <Filter>audio_device</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_device\audio_device_utility.cc">
+      <Filter>audio_device</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_device\win\audio_device_core_win.cc">
+      <Filter>audio_device\win</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_device\win\audio_device_utility_win.cc">
+      <Filter>audio_device\win</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_device\win\audio_device_wave_win.cc">
+      <Filter>audio_device\win</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_device\win\audio_mixer_manager_win.cc">
+      <Filter>audio_device\win</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="audio_device\audio_device_buffer.h">
+      <Filter>audio_device</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\audio_device_config.h">
+      <Filter>audio_device</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\audio_device_generic.h">
+      <Filter>audio_device</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\audio_device_impl.h">
+      <Filter>audio_device</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\audio_device_utility.h">
+      <Filter>audio_device</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\dummy\audio_device_dummy.h">
+      <Filter>audio_device\dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\dummy\audio_device_utility_dummy.h">
+      <Filter>audio_device\dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\win\audio_device_core_win.h">
+      <Filter>audio_device\win</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\win\audio_device_utility_win.h">
+      <Filter>audio_device\win</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\win\audio_device_wave_win.h">
+      <Filter>audio_device\win</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\win\audio_mixer_manager_win.h">
+      <Filter>audio_device\win</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\include\audio_device.h">
+      <Filter>audio_device\include</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_device\include\audio_device_defines.h">
+      <Filter>audio_device\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="modules.gyp" />
+  </ItemGroup>
+</Project>

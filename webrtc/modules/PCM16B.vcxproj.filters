@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="audio_coding">
+      <UniqueIdentifier>{48e7d9b0-ad1b-484f-8dce-ebce8ccb142f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio_coding\codecs">
+      <UniqueIdentifier>{d645b2aa-d16e-4e89-a6d7-bdba21d08298}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio_coding\codecs\pcm16b">
+      <UniqueIdentifier>{b1183683-9057-4ae7-ab66-f2e4dbf9dab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio_coding\codecs\pcm16b\include">
+      <UniqueIdentifier>{1bee0902-e144-4cc4-b672-5e2855b8ba80}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="audio_coding\codecs\pcm16b\pcm16b.c">
+      <Filter>audio_coding\codecs\pcm16b</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="audio_coding\codecs\pcm16b\include\pcm16b.h">
+      <Filter>audio_coding\codecs\pcm16b\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="modules.gyp" />
+  </ItemGroup>
+</Project>
