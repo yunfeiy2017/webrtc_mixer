@@ -148,9 +148,9 @@ bool AudioConferenceMixerImpl::Init()
     if(SetOutputFrequency(kDefaultFrequency) == -1)
         return false;
 
-    // Assume mono.
-    if (!SetNumLimiterChannels(1))
-        return false;
+    //// Assume mono.
+    //if (!SetNumLimiterChannels(1))
+    //    return false;
 
     if(_limiter->gain_control()->set_mode(GainControl::kFixedDigital) !=
         _limiter->kNoError)
@@ -277,6 +277,7 @@ WebRtc_Word32 AudioConferenceMixerImpl::Process()
                 return -1;
             }
         }
+		SetOutputFrequency(kFbInHz);
 
         UpdateToMix(mixList, rampOutList, mixedParticipantsMap, rampOutParticipantsMap,
                     remainingParticipantsAllowedToMix);
@@ -286,7 +287,7 @@ WebRtc_Word32 AudioConferenceMixerImpl::Process()
 
         GetAdditionalAudio(additionalFramesList);
         UpdateMixedStatus(mixedParticipantsMap);
-        _scratchParticipantsToMixAmount = mixedParticipantsMap.Size();
+        //_scratchParticipantsToMixAmount = mixedParticipantsMap.Size();
     }
 
     // Get an AudioFrame for mixing from the memory pool.
@@ -312,8 +313,8 @@ WebRtc_Word32 AudioConferenceMixerImpl::Process()
             std::max(MaxNumChannels(additionalFramesList),
                      MaxNumChannels(rampOutList)));
 
-        if (!SetNumLimiterChannels(num_mixed_channels))
-            retval = -1;
+        //if (!SetNumLimiterChannels(num_mixed_channels))
+        //    retval = -1;
 
 		// mix all participant to int32 sample in MixFrames()
 		memset(_all_data, 0, sizeof(int32_t)*_sampleSize*num_mixed_channels);
@@ -567,13 +568,6 @@ WebRtc_Word32 AudioConferenceMixerImpl::SetOutputFrequency(
     const Frequency frequency)
 {
     CriticalSectionScoped cs(_crit.get());
-    const int error = _limiter->set_sample_rate_hz(frequency);
-    if(error != _limiter->kNoError)
-    {
-        WEBRTC_TRACE(kTraceError, kTraceAudioMixerServer, _id,
-                     "Error from AudioProcessing: %d", error);
-        return -1;
-    }
 
     _outputFrequency = frequency;
     _sampleSize = (_outputFrequency*kProcessPeriodicityInMs) / 1000;
