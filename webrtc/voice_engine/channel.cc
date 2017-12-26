@@ -25,7 +25,7 @@
 #include "voe_base.h"
 #include "voe_external_media.h"
 #include "voe_rtp_rtcp.h"
-//#define OUTPUT_TO_FILE 1
+#define OUTPUT_TO_FILE 1
 #if defined(_WIN32)
 #include <Qos.h>
 #endif
@@ -935,6 +935,13 @@ WebRtc_Word32 Channel::GetAudioFrame(const WebRtc_Word32 id,
     // Measure audio level (0-9)
     _outputAudioLevel.ComputeLevel(audioFrame);
 
+	if (_outFile)
+	{
+		//printf("outtofile id:%d\n", this->_channelId);
+		int ret = fwrite(audioFrame.data_, 1, _frameDataSize, _outFile);
+		(void)ret;
+	}
+
     return 0;
 }
 
@@ -986,6 +993,7 @@ void Channel::AddMixedAudio(const AudioFrame& audioFrame)
 		return;
 	}
 #ifdef OUTPUT_TO_FILE
+#if 0
 	if (audioFrame.samples_per_channel_*audioFrame.num_channels_*2 != _frameDataSize)
 	{
 		printf("output error frame,%d:%d:%d\r\n",audioFrame.samples_per_channel_,
@@ -1001,6 +1009,7 @@ void Channel::AddMixedAudio(const AudioFrame& audioFrame)
 			(void)ret;
 		}
 	}
+#endif
 #endif
 	_audioFrame.CopyFrom(audioFrame);
 	_audioFrame.id_ = _channelId;
@@ -1225,7 +1234,7 @@ Channel::Channel(const WebRtc_Word32 channelId,
 
 	_outFile = NULL;
 	char outFileName[256];
-	sprintf_s(outFileName,"E:\\audiotest\\test_audio\\out_%d_%d.pcm",_instanceId, channelId);
+	sprintf_s(outFileName,"D:\\voip\\out_%d_%d.pcm",_instanceId, channelId);
 
 #ifdef OUTPUT_TO_FILE
 	fopen_s(&_outFile,outFileName,"wb+");

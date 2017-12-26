@@ -1,6 +1,11 @@
 #pragma once
-#include <afxsock.h>
+
 #include <map>
+#include <afxsock.h>
+#include <time.h>
+#include <map>
+#include <process.h>
+#include "MixerEngine.h"
 #include "voe_base.h"
 #include "voe_rtp_rtcp.h"
 #include "voe_codec.h"
@@ -15,6 +20,7 @@
 #include "voe_rtp_rtcp.h"
 #include "voe_errors.h"
 #include "voe_mixer.h"
+#include "MixerUser.h"
 
 using namespace webrtc;
 
@@ -24,15 +30,15 @@ class MyEncryption;
 class RxCallback;
 class MyTransport;
 
-
-class MixerEngine :public webrtc::StreamReceiver
+class MixerEngineImpl : public MixerEngine, webrtc::StreamReceiver
 {
 public:
-	MixerEngine(int id, int numOfChannel);
-	~MixerEngine();
-	virtual int newPacket(const void *data, int len) { return 0;}
 
-public:
+	MixerEngineImpl(MixerEngineCallback *callback, void *user_data);
+	~MixerEngineImpl() ;
+	virtual int start() override;
+	virtual int stop() override;
+	virtual int newPacket(const void *data, int len) override;
 	int _id;
 	int _numOfChannel;
 	VoiceEngine*			_vePtr;
@@ -40,5 +46,15 @@ public:
 	VoENetwork*             _veNetworkPtr;
 	VoEBase*                _veBasePtr;
 	VoEMixer*				_veMixerPtr;
+	MixerEngineCallback *callback_;
+	bool _isStart;
+	HANDLE _threadHandle;
+	unsigned short m_currPort;
+	MixerUser* m_userList[16];// all usersunsigned short MixerConf::GetNextUdpPort()
+	int GetNextUdpPort(){
+		unsigned short port = m_currPort;
+		m_currPort += 2;
+		return port;
+	}
 };
 

@@ -7,16 +7,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="mixer_test\MixerUser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="mixer_test\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="mixer_test\MixerConf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mixer_test\MixerUser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mixer_test\MixerEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -31,9 +28,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="mixer_test\MixerUser.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mixer_test\MixerEngine.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

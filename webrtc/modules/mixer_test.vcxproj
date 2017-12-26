@@ -63,6 +63,7 @@
       <AdditionalLibraryDirectories>$(OutDir);$(OutDir)lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>msvcrtd.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -84,14 +85,12 @@
   <ItemGroup>
     <ClCompile Include="mixer_test\main.cpp" />
     <ClCompile Include="mixer_test\MixerConf.cpp" />
-    <ClCompile Include="mixer_test\MixerEngine.cpp" />
     <ClCompile Include="mixer_test\MixerUser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mixer_test\main.h" />
     <ClInclude Include="mixer_test\MixerConf.h" />
     <ClInclude Include="mixer_test\MixerDefines.h" />
-    <ClInclude Include="mixer_test\MixerEngine.h" />
     <ClInclude Include="mixer_test\MixerUser.h" />
   </ItemGroup>
   <ItemGroup>
