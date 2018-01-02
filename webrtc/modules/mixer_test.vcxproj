@@ -54,7 +54,7 @@
       <AdditionalIncludeDirectories>..;..\..;audio_conference_mixer\interface;interface;audio_processing\include;utility\interface;audio_coding\main\interface;..\system_wrappers\interface;..\voice_engine\include;include;..\..\webrtc\modules\audio_device;..\common_audio\resampler\include;..\common_audio\signal_processing\include;..\modules\audio_coding\main\interface;..\modules\interface;..\modules\audio_conference_mixer\interface;..\modules\audio_device\include;..\modules\audio_processing\include;..\modules\media_file\interface;..\modules\rtp_rtcp\interface;..\modules\udp_transport\interface;..\modules\utility\interface;audio_conference_mixer\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
@@ -69,7 +69,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>..;..\..;audio_conference_mixer\interface;interface;audio_processing\include;utility\interface;audio_coding\main\interface;..\system_wrappers\interface;..\voice_engine\include;include;..\..\webrtc\modules\audio_device;..\common_audio\resampler\include;..\common_audio\signal_processing\include;..\modules\audio_coding\main\interface;..\modules\interface;..\modules\audio_conference_mixer\interface;..\modules\audio_device\include;..\modules\audio_processing\include;..\modules\media_file\interface;..\modules\rtp_rtcp\interface;..\modules\udp_transport\interface;..\modules\utility\interface;audio_conference_mixer\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>

@@ -26,7 +26,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -79,6 +79,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\build\$(Configuration)\</OutDir>
+    <IntDir>$(OutDir)obj\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -89,13 +91,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;AUDIOMIXERENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>..\webrtc\audio_conference_mixer\interface;..\webrtc\interface;..\webrtc\audio_processing\include;..\webrtc\utility\interface;..\webrtc\audio_coding\main\interface;..\webrtc\\system_wrappers\interface;..\webrtc\\voice_engine\include;include;..\webrtc\modules\audio_device;..\webrtc\common_audio\resampler\include;..\common_audio\signal_processing\include;..\webrtc\modules\audio_coding\main\interface;..\webrtc\modules\interface;..\webrtc\modules\audio_conference_mixer\interface;..\webrtc\modules\audio_device\include;..\webrtc\modules\audio_processing\include;..\webrtc\modules\media_file\interface;..\webrtc\modules\rtp_rtcp\interface;..\webrtc\modules\udp_transport\interface;..\webrtc\modules\utility\interface;audio_conference_mixer\source;..\webrtc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>voice_engine_core.lib;amrnb.lib;opus.lib;libspeexdsp.lib;libspeex.lib;resampler.lib;signal_processing.lib;vad.lib;system_wrappers.lib;;audio_coding_module.lib;;audio_conference_mixer.lib;audio_device.lib;;audio_processing.lib;;audio_processing_sse2.lib;CNG.lib;;G711.lib;;G722.lib;iLBC.lib;iSAC.lib;;iSACFix.lib;media_file.lib;NetEq.lib;paced_sender.lib;;PCM16B.lib;;rtp_rtcp.lib;;udp_transport.lib;webrtc_opus.lib;webrtc_utility.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>voice_engine_core.lib;amrnb.lib;opus.lib;libspeexdsp.lib;libspeex.lib;resampler.lib;signal_processing.lib;vad.lib;system_wrappers.lib;audio_coding_module.lib;audio_conference_mixer.lib;audio_device.lib;audio_processing.lib;audio_processing_sse2.lib;CNG.lib;G711.lib;G722.lib;iLBC.lib;iSAC.lib;iSACFix.lib;media_file.lib;NetEq.lib;paced_sender.lib;PCM16B.lib;rtp_rtcp.lib;udp_transport.lib;webrtc_opus.lib;webrtc_utility.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);$(OutDir)lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Lib>
@@ -118,17 +120,20 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;AUDIOMIXERENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\webrtc\audio_conference_mixer\interface;..\webrtc\interface;..\webrtc\audio_processing\include;..\webrtc\utility\interface;..\webrtc\audio_coding\main\interface;..\webrtc\\system_wrappers\interface;..\webrtc\\voice_engine\include;include;..\webrtc\modules\audio_device;..\webrtc\common_audio\resampler\include;..\common_audio\signal_processing\include;..\webrtc\modules\audio_coding\main\interface;..\webrtc\modules\interface;..\webrtc\modules\audio_conference_mixer\interface;..\webrtc\modules\audio_device\include;..\webrtc\modules\audio_processing\include;..\webrtc\modules\media_file\interface;..\webrtc\modules\rtp_rtcp\interface;..\webrtc\modules\udp_transport\interface;..\webrtc\modules\utility\interface;audio_conference_mixer\source;..\webrtc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>voice_engine_core.lib;amrnb.lib;opus.lib;libspeexdsp.lib;libspeex.lib;resampler.lib;signal_processing.lib;vad.lib;system_wrappers.lib;audio_coding_module.lib;audio_conference_mixer.lib;audio_device.lib;audio_processing.lib;audio_processing_sse2.lib;CNG.lib;G711.lib;G722.lib;iLBC.lib;iSAC.lib;iSACFix.lib;media_file.lib;NetEq.lib;paced_sender.lib;PCM16B.lib;rtp_rtcp.lib;udp_transport.lib;webrtc_opus.lib;webrtc_utility.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(OutDir)lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

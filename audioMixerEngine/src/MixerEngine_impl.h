@@ -1,7 +1,8 @@
 #pragma once
 
 #include <map>
-#include <afxsock.h>
+//#include <afxsock.h>
+#include <WinSock2.h>
 #include <time.h>
 #include <map>
 #include <process.h>
@@ -23,7 +24,7 @@
 #include "MixerUser.h"
 
 using namespace webrtc;
-
+namespace mixerengine{
 class MediaProcessImpl;
 class ConnectionObserver;
 class MyEncryption;
@@ -38,7 +39,11 @@ public:
 	~MixerEngineImpl() ;
 	virtual int start() override;
 	virtual int stop() override;
-	virtual int newPacket(const void *data, int len) override;
+	virtual int newPacket(const void* audio_data,
+		const size_t number_of_frames,
+		const size_t bytes_per_sample,
+		const size_t number_of_channels,
+		const uint32_t sample_rate) override;
 	int _id;
 	int _numOfChannel;
 	VoiceEngine*			_vePtr;
@@ -58,3 +63,4 @@ public:
 	}
 };
 
+}

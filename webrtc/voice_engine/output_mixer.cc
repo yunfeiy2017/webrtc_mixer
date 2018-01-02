@@ -38,7 +38,8 @@ OutputMixer::NewMixedAudio(const WebRtc_Word32 id,
 	{
 		if (_externalStreamReceiverPtr)
 		{
-			_externalStreamReceiverPtr->newPacket(_audioFrame.data_, _audioFrame.samples_per_channel_*2);
+			_externalStreamReceiverPtr->newPacket(_audioFrame.data_, _audioFrame.samples_per_channel_/*number_of_frames*/, 2/*bytes_per_sample*/, 
+				_audioFrame.num_channels_, _audioFrame.sample_rate_hz_); 
 		}
 	}
 }

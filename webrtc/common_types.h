@@ -239,7 +239,11 @@ protected:
 class StreamReceiver
 {
 public:
-	virtual int newPacket(const void *data, int len) = 0;
+	virtual int newPacket(const void* audio_data,
+		const size_t number_of_frames,
+		const size_t bytes_per_sample,
+		const size_t number_of_channels,
+		const uint32_t sample_rate ) = 0;
 
 protected:
 	virtual ~StreamReceiver() {}

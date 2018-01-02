@@ -1,11 +1,16 @@
 #include "MixerEngine.h"
 #include <time.h>
+using namespace mixerengine;
 class MyCallback : public MixerEngineCallback
 {
 public:
 	MyCallback() {}
 	~MyCallback(){}
-	virtual void OnMixSamples()
+	virtual void OnMixSamples(const void* audio_data,
+		const size_t number_of_frames,
+		const size_t bytes_per_sample,
+		const size_t number_of_channels,
+		const uint32_t sample_rate)
 	{}
 };
 int main()
