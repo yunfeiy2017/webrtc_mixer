@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="pacing">
+      <UniqueIdentifier>{ff443d55-af7e-4f9c-b821-25808b1f4d78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pacing\include">
+      <UniqueIdentifier>{83cea27e-f6de-4160-bed5-b9531f4c3edb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pacing\paced_sender.cc">
+      <Filter>pacing</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pacing\include\paced_sender.h">
+      <Filter>pacing\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="modules.gyp" />
+  </ItemGroup>
+</Project>

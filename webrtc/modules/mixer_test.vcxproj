@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6A088D44-3F28-43C5-9962-7DC0129ACCE6}</ProjectGuid>
+    <RootNamespace>mixer_test</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\build\$(Configuration)\</OutDir>
+    <IntDir>$(OutDir)obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\build\$(Configuration)\</OutDir>
+    <IntDir>$(OutDir)obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..;..\..;audio_conference_mixer\interface;interface;audio_processing\include;utility\interface;audio_coding\main\interface;..\system_wrappers\interface;..\voice_engine\include;include;..\..\webrtc\modules\audio_device;..\common_audio\resampler\include;..\common_audio\signal_processing\include;..\modules\audio_coding\main\interface;..\modules\interface;..\modules\audio_conference_mixer\interface;..\modules\audio_device\include;..\modules\audio_processing\include;..\modules\media_file\interface;..\modules\rtp_rtcp\interface;..\modules\udp_transport\interface;..\modules\utility\interface;audio_conference_mixer\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>voice_engine_core.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(OutDir)lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>msvcrtd.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..;..\..;audio_conference_mixer\interface;interface;audio_processing\include;utility\interface;audio_coding\main\interface;..\system_wrappers\interface;..\voice_engine\include;include;..\..\webrtc\modules\audio_device;..\common_audio\resampler\include;..\common_audio\signal_processing\include;..\modules\audio_coding\main\interface;..\modules\interface;..\modules\audio_conference_mixer\interface;..\modules\audio_device\include;..\modules\audio_processing\include;..\modules\media_file\interface;..\modules\rtp_rtcp\interface;..\modules\udp_transport\interface;..\modules\utility\interface;audio_conference_mixer\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>voice_engine_core.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(OutDir)lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="mixer_test\main.cpp" />
+    <ClCompile Include="mixer_test\MixerConf.cpp" />
+    <ClCompile Include="mixer_test\MixerUser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mixer_test\main.h" />
+    <ClInclude Include="mixer_test\MixerConf.h" />
+    <ClInclude Include="mixer_test\MixerDefines.h" />
+    <ClInclude Include="mixer_test\MixerUser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\third_party\amrnb\amrnb.vcxproj">
+      <Project>{d5b5f38f-c5fe-4728-9af7-ec3c36c984db}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\third_party\opus\opus.vcxproj">
+      <Project>{12350606-1351-b3a3-03a0-9976b3e17b5f}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\third_party\speex-1.2rc1\win32\VS2005\libspeexdsp\libspeexdsp.vcxproj">
+      <Project>{e42fdc95-7243-4219-9ea4-acce4ab97197}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\third_party\speex-1.2rc1\win32\VS2005\libspeex\libspeex.vcxproj">
+      <Project>{e972c52f-9e85-4d65-b19c-031e511e9db4}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\common_audio\resampler.vcxproj">
+      <Project>{4b1c2751-58ef-cdd4-8799-67a67a431ec7}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\common_audio\signal_processing.vcxproj">
+      <Project>{5f8d8819-7373-80b5-f1cf-d779e158bf60}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\common_audio\vad.vcxproj">
+      <Project>{cbbb14c8-aaa0-f8d8-5cfd-9cdff0891bde}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\system_wrappers\source\system_wrappers.vcxproj">
+      <Project>{02d22f17-ff28-15fe-59c2-7de99730061d}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\voice_engine\voice_engine_core.vcxproj">
+      <Project>{c46fabd2-cf31-0c3d-02b8-fbd58aab8e57}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="audio_coding_module.vcxproj">
+      <Project>{5f19ba4a-aa17-df39-8954-ee75eaa3986d}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="audio_conference_mixer.vcxproj">
+      <Project>{e5c7533b-58d9-22e2-5bd5-29cb661693a4}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="audio_device.vcxproj">
+      <Project>{341c17ea-d828-225c-2a61-b5f654e0c321}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="audio_processing.vcxproj">
+      <Project>{726fc020-fb76-e915-d270-cdcd382d7be1}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="audio_processing_sse2.vcxproj">
+      <Project>{059f9bd4-ef7c-45d2-d468-05bbaf1f77a2}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="CNG.vcxproj">
+      <Project>{f4c04d4f-862a-b991-191c-3130ee0383a9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="G711.vcxproj">
+      <Project>{89689cdd-9ee1-09ba-3c98-5d734cbcf867}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="G722.vcxproj">
+      <Project>{56b0265b-1dd5-ed91-aa73-05cfb44fcbf6}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="iLBC.vcxproj">
+      <Project>{697ba84f-589a-9a20-1a24-0650830cd6ee}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="iSAC.vcxproj">
+      <Project>{6ebe03aa-e16a-f851-c823-8627b212d61c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="iSACFix.vcxproj">
+      <Project>{af542a37-483a-fd38-c210-773e698549bf}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="media_file.vcxproj">
+      <Project>{553e6a63-3517-d85c-c3af-18cadde6eb74}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="NetEq.vcxproj">
+      <Project>{161908ba-ab03-702c-020b-cdd3fcc2bf84}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="paced_sender.vcxproj">
+      <Project>{442ef70c-a9e2-d85a-4b26-e145dbc6369c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="PCM16B.vcxproj">
+      <Project>{dc151ab1-6b87-e2a7-3237-8a709f4bd17b}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="rtp_rtcp.vcxproj">
+      <Project>{af1afd39-49b4-3134-9f33-0e91a1da66a3}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="udp_transport.vcxproj">
+      <Project>{ac0583f5-4fa3-6f46-60f9-a23ba2481081}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="webrtc_opus.vcxproj">
+      <Project>{72dcfcb9-2e3a-edf7-fe61-a2c55e0e37d7}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="webrtc_utility.vcxproj">
+      <Project>{b251b3d6-9154-872b-f049-5285e5319d4f}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

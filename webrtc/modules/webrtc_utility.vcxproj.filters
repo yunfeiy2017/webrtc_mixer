@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="utility">
+      <UniqueIdentifier>{86beb80c-75dd-41c6-b9d2-56a7ff24ddf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility\interface">
+      <UniqueIdentifier>{a687ad57-74b0-4cbd-aecc-b52621a73f5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility\source">
+      <UniqueIdentifier>{8c3c1a83-d49f-4d12-b47d-c88ab3d0dab9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="utility\interface\audio_frame_operations.h">
+      <Filter>utility\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\interface\file_player.h">
+      <Filter>utility\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\interface\file_recorder.h">
+      <Filter>utility\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\interface\process_thread.h">
+      <Filter>utility\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\interface\rtp_dump.h">
+      <Filter>utility\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\source\coder.h">
+      <Filter>utility\source</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\source\file_player_impl.h">
+      <Filter>utility\source</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\source\file_recorder_impl.h">
+      <Filter>utility\source</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\source\process_thread_impl.h">
+      <Filter>utility\source</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\source\rtp_dump_impl.h">
+      <Filter>utility\source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="utility\source\audio_frame_operations.cc">
+      <Filter>utility\source</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\source\coder.cc">
+      <Filter>utility\source</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\source\file_player_impl.cc">
+      <Filter>utility\source</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\source\file_recorder_impl.cc">
+      <Filter>utility\source</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\source\frame_scaler.cc">
+      <Filter>utility\source</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\source\process_thread_impl.cc">
+      <Filter>utility\source</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\source\rtp_dump_impl.cc">
+      <Filter>utility\source</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\source\video_coder.cc">
+      <Filter>utility\source</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\source\video_frames_queue.cc">
+      <Filter>utility\source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="modules.gyp" />
+  </ItemGroup>
+</Project>

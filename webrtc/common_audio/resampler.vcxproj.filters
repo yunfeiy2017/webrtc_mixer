@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="resampler">
+      <UniqueIdentifier>{79919314-0d41-4008-9d07-e15f4f76c6be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resampler\include">
+      <UniqueIdentifier>{896142af-9344-4bc7-919c-5cb51fc1c4cc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="resampler\resampler.cc">
+      <Filter>resampler</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resampler\include\resampler.h">
+      <Filter>resampler\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="common_audio.gyp" />
+  </ItemGroup>
+</Project>

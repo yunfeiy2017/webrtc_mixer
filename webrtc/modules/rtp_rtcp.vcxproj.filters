@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="rtp_rtcp">
+      <UniqueIdentifier>{a214f7ec-4cda-419c-916f-aa074d1c93f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rtp_rtcp\mocks">
+      <UniqueIdentifier>{e220037f-90e2-4433-b011-79530827484c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rtp_rtcp\source">
+      <UniqueIdentifier>{c96aa358-f933-4a2f-bbaf-1a6d5ef218ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rtp_rtcp\interface">
+      <UniqueIdentifier>{1df91497-cf68-4247-8e65-e34493e3a52e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="rtp_rtcp\mocks\mock_rtp_rtcp.h">
+      <Filter>rtp_rtcp\mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\bitrate.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\dtmf_queue.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\fec_private_tables_bursty.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\fec_private_tables_random.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\forward_error_correction.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\forward_error_correction_internal.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\producer_fec.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\receiver_fec.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtcp_receiver.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtcp_receiver_help.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtcp_sender.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtcp_utility.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_format_vp8.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_header_extension.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_packet_history.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_payload_registry.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_receiver.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_receiver_audio.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_receiver_strategy.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_receiver_video.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_rtcp_config.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_rtcp_impl.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_sender.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_sender_audio.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_sender_video.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\rtp_utility.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\ssrc_database.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\tmmbr_help.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\video_codec_information.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\source\vp8_partition_aggregator.h">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\interface\rtp_rtcp.h">
+      <Filter>rtp_rtcp\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_rtcp\interface\rtp_rtcp_defines.h">
+      <Filter>rtp_rtcp\interface</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="rtp_rtcp\source\bitrate.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\dtmf_queue.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\forward_error_correction.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\forward_error_correction_internal.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\producer_fec.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\receiver_fec.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtcp_receiver.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtcp_receiver_help.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtcp_sender.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtcp_utility.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_format_vp8.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_header_extension.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_packet_history.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_payload_registry.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_receiver.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_receiver_audio.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_receiver_strategy.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_receiver_video.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_rtcp_impl.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_sender.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_sender_audio.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_sender_video.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\rtp_utility.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\ssrc_database.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\tmmbr_help.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_rtcp\source\vp8_partition_aggregator.cc">
+      <Filter>rtp_rtcp\source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="modules.gyp" />
+  </ItemGroup>
+</Project>

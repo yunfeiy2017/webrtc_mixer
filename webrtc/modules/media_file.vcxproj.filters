@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="media_file">
+      <UniqueIdentifier>{0f3fcdc8-674c-483d-b7b6-908e6ee7cb66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="media_file\interface">
+      <UniqueIdentifier>{c5451035-da94-436b-9f00-2910f0bc2124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="media_file\source">
+      <UniqueIdentifier>{5093ecf3-d1e7-4331-915c-15382dc0b97c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="media_file\interface\media_file.h">
+      <Filter>media_file\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="media_file\interface\media_file_defines.h">
+      <Filter>media_file\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="media_file\source\avi_file.h">
+      <Filter>media_file\source</Filter>
+    </ClInclude>
+    <ClInclude Include="media_file\source\media_file_impl.h">
+      <Filter>media_file\source</Filter>
+    </ClInclude>
+    <ClInclude Include="media_file\source\media_file_utility.h">
+      <Filter>media_file\source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="media_file\source\avi_file.cc">
+      <Filter>media_file\source</Filter>
+    </ClCompile>
+    <ClCompile Include="media_file\source\media_file_impl.cc">
+      <Filter>media_file\source</Filter>
+    </ClCompile>
+    <ClCompile Include="media_file\source\media_file_utility.cc">
+      <Filter>media_file\source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="modules.gyp" />
+  </ItemGroup>
+</Project>
