@@ -26,7 +26,7 @@ namespace mixerengine {
 		//virtual int newPacket(const void *data, int len) { return 0;}
 		virtual int start() = 0;
 		virtual int stop() = 0;
-
+		virtual ~MixerEngine() {}
 	};
 
 }

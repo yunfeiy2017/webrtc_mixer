@@ -226,9 +226,11 @@ namespace mixerengine {
 	}
 	MixerEngineImpl::~MixerEngineImpl()
 	{
+		printf("del MixerEngineImpl\n\n\n done");
 		if (_isStart)
 			stop();
-		_veMixerPtr->stop();
+		if(_veMixerPtr)
+			_veMixerPtr->stop();
 
 		for (int i = 0; i < _numOfChannel; i++)
 		{
@@ -267,6 +269,8 @@ namespace mixerengine {
 	{
 		if (_isStart)
 			_isStart = false;
+		if(_veMixerPtr)
+			_veMixerPtr->stop();
 		TerminateThread(_threadHandle, 0);
 		if (pcmFile)
 			fclose(pcmFile);
