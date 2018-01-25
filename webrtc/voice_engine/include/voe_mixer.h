@@ -6,6 +6,7 @@
 namespace webrtc {
 
 class VoiceEngine;
+class AudioFrame;
 
 class WEBRTC_DLLEXPORT VoEMixer
 {
@@ -17,6 +18,7 @@ public:
 
 	virtual int RegisterExternalStreamReceiver(
 		StreamReceiver& transport) = 0;
+	virtual int addAECFarendData(AudioFrame &audioFrame) = 0;
 
     // Releases the VoEMixer sub-API and decreases an internal
     // reference counter. Returns the new reference count. This value should

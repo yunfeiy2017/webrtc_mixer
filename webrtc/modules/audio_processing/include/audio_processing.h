@@ -213,7 +213,7 @@ class AudioProcessing : public Module {
   // These provide access to the component interfaces and should never return
   // NULL. The pointers will be valid for the lifetime of the APM instance.
   // The memory for these objects is entirely managed internally.
-  //virtual EchoCancellation* echo_cancellation() const = 0;
+  virtual EchoCancellation* echo_cancellation() const = 0;
   //virtual EchoControlMobile* echo_control_mobile() const = 0;
   virtual GainControl* gain_control() const = 0;
   virtual HighPassFilter* high_pass_filter() const = 0;

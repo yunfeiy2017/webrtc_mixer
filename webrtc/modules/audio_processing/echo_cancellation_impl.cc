@@ -162,9 +162,9 @@ int EchoCancellationImpl::ProcessCaptureAudio(AudioBuffer* audio) {
 int EchoCancellationImpl::Enable(bool enable) {
   CriticalSectionScoped crit_scoped(apm_->crit());
   // Ensure AEC and AECM are not both enabled.
-  if (enable && apm_->echo_control_mobile()->is_enabled()) {
-    return apm_->kBadParameterError;
-  }
+  //if (enable && apm_->echo_control_mobile()->is_enabled()) {
+  //  return apm_->kBadParameterError;
+  //}
 
   return EnableComponent(enable);
 }

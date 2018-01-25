@@ -295,5 +295,14 @@ namespace mixerengine {
 
 		return 0;
 	}
+	int MixerEngineImpl::addAECFarendData(const void * data, const int noSamples, const int noChannels, const int sampleRate)
+	{
+		webrtc::AudioFrame audioFrame;
+		audioFrame.UpdateFrame(-1, 0, (const int16_t*)data, noSamples, sampleRate, AudioFrame::kNormalSpeech,
+			AudioFrame::kVadActive, noChannels);
+		if (_veMixerPtr)
+			_veMixerPtr->addAECFarendData(audioFrame);
+		return 0;
+	}
 }
 

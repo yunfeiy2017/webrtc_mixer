@@ -32,7 +32,7 @@ public:
         kSwbInHz          = 32000,
         kFbInHz           = 48000,
         kLowestPossible   = -1,
-        kDefaultFrequency = kFbInHz
+        kDefaultFrequency = kWbInHz
     };
 
     // Factory method. Constructor disabled.

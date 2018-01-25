@@ -19,6 +19,7 @@ public:
     TimeScheduler _timeScheduler;
 	virtual WebRtc_Word32 Process();
 	int RegisterExternalStreamReceiver(StreamReceiver & receiver);
+	virtual int addAECFarendData(AudioFrame &audioFrame) override;
 	virtual WebRtc_Word32 TimeUntilNextProcess();
 	int8_t _playBuffer[3840];
 	scoped_ptr<CriticalSectionWrapper> _crit;

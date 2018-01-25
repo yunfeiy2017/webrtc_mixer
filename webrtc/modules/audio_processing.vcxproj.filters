@@ -105,6 +105,9 @@
     <ClCompile Include="audio_processing\utility\ring_buffer.c">
       <Filter>audio_processing\utility</Filter>
     </ClCompile>
+    <ClCompile Include="audio_processing\echo_cancellation_impl.cc">
+      <Filter>audio_processing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio_processing\audio_buffer.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="audio_processing\utility\ring_buffer.h">
       <Filter>audio_processing\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_processing\echo_cancellation_impl.h">
+      <Filter>audio_processing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

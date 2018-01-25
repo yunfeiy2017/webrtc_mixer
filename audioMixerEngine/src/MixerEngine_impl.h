@@ -22,6 +22,7 @@
 #include "voe_errors.h"
 #include "voe_mixer.h"
 #include "MixerUser.h"
+#include "module_common_types.h"
 
 using namespace webrtc;
 namespace mixerengine{
@@ -38,7 +39,8 @@ public:
 	MixerEngineImpl(MixerEngineCallback *callback, void *user_data);
 	~MixerEngineImpl() ;
 	virtual int start() override;
-	virtual int stop() override;
+	virtual int stop() override;	
+	virtual int addAECFarendData(const void* data, const int noSamples, const int noChannels, const int sampleRate) override;
 	virtual int newPacket(const void* audio_data,
 		const size_t number_of_frames,
 		const size_t bytes_per_sample,

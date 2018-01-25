@@ -13,10 +13,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(third_party)", "(third_party)", "{89C816A7-DD31-D54C-C69C-5A80E0C49B77}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(voice_engine)", "(voice_engine)", "{C6072D03-1C5B-73BF-5FBE-CBC33489C980}"
-	ProjectSection(SolutionItems) = preProject
-		webrtc\voice_engine\voe_mixer_impl.cc = webrtc\voice_engine\voe_mixer_impl.cc
-		webrtc\voice_engine\voe_mixer_impl.h = webrtc\voice_engine\voe_mixer_impl.h
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(webrtc)", "(webrtc)", "{FB3E20CC-9516-F7D2-EFF7-C27ABDCA54B9}"
 EndProject

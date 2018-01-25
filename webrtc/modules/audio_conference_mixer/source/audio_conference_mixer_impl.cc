@@ -277,7 +277,7 @@ WebRtc_Word32 AudioConferenceMixerImpl::Process()
                 return -1;
             }
         }
-		SetOutputFrequency(kFbInHz);
+		//SetOutputFrequency(kFbInHz);
 
         UpdateToMix(mixList, rampOutList, mixedParticipantsMap, rampOutParticipantsMap,
                     remainingParticipantsAllowedToMix);

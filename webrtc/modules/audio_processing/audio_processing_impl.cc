@@ -14,7 +14,7 @@
 
 #include "audio_buffer.h"
 #include "critical_section_wrapper.h"
-//#include "echo_cancellation_impl.h"
+#include "echo_cancellation_impl.h"
 //#include "echo_control_mobile_impl.h"
 #include "file_wrapper.h"
 #include "high_pass_filter_impl.h"
@@ -53,7 +53,7 @@ void AudioProcessing::Destroy(AudioProcessing* apm) {
 
 AudioProcessingImpl::AudioProcessingImpl(int id)
     : id_(id),
-//      echo_cancellation_(NULL),
+      echo_cancellation_(NULL),
 //      echo_control_mobile_(NULL),
       gain_control_(NULL),
       high_pass_filter_(NULL),
@@ -77,8 +77,8 @@ AudioProcessingImpl::AudioProcessingImpl(int id)
       num_input_channels_(1),
       num_output_channels_(1) {
 
-//  echo_cancellation_ = new EchoCancellationImpl(this);
-//  component_list_.push_back(echo_cancellation_);
+  echo_cancellation_ = new EchoCancellationImpl(this);
+  component_list_.push_back(echo_cancellation_);
 
 //  echo_control_mobile_ = new EchoControlMobileImpl(this);
 //  component_list_.push_back(echo_control_mobile_);
@@ -189,7 +189,8 @@ int AudioProcessingImpl::set_sample_rate_hz(int rate) {
   }
   if (rate != kSampleRate8kHz &&
       rate != kSampleRate16kHz &&
-      rate != kSampleRate32kHz) {
+      rate != kSampleRate32kHz &&
+	  rate != kSampleRate48kHz) {
     return kBadParameterError;
   }
 
@@ -288,7 +289,7 @@ int AudioProcessingImpl::ProcessStream(AudioFrame* frame) {
                              frame->num_channels_;
     msg->set_input_data(frame->data_, data_size);
     msg->set_delay(stream_delay_ms_);
-//    msg->set_drift(echo_cancellation_->stream_drift_samples());
+    msg->set_drift(echo_cancellation_->stream_drift_samples());
     msg->set_level(gain_control_->stream_analog_level());
   }
 #endif
@@ -322,12 +323,12 @@ int AudioProcessingImpl::ProcessStream(AudioFrame* frame) {
   if (err != kNoError) {
     return err;
   }
-/*
+
   err = echo_cancellation_->ProcessCaptureAudio(capture_audio_);
   if (err != kNoError) {
     return err;
   }
-
+/*
   if (echo_control_mobile_->is_enabled() &&
       noise_suppression_->is_enabled()) {
     capture_audio_->CopyLowPassToReference();
@@ -438,13 +439,13 @@ int AudioProcessingImpl::AnalyzeReverseStream(AudioFrame* frame) {
                               render_audio_->analysis_filter_state2(i));
     }
   }
-/*
+
   // TODO(ajm): warnings possible from components?
   err = echo_cancellation_->ProcessRenderAudio(render_audio_);
   if (err != kNoError) {
     return err;
   }
-
+/*
   err = echo_control_mobile_->ProcessRenderAudio(render_audio_);
   if (err != kNoError) {
     return err;
@@ -542,11 +543,11 @@ int AudioProcessingImpl::StopDebugRecording() {
   return kUnsupportedFunctionError;
 #endif  // WEBRTC_AUDIOPROC_DEBUG_DUMP
 }
-/*
+
 EchoCancellation* AudioProcessingImpl::echo_cancellation() const {
   return echo_cancellation_;
 }
-
+/*
 EchoControlMobile* AudioProcessingImpl::echo_control_mobile() const {
   return echo_control_mobile_;
 }
@@ -655,7 +656,7 @@ int AudioProcessingImpl::WriteInitMessage() {
   event_msg_->set_type(audioproc::Event::INIT);
   audioproc::Init* msg = event_msg_->mutable_init();
   msg->set_sample_rate(sample_rate_hz_);
-//  msg->set_device_sample_rate(echo_cancellation_->device_sample_rate_hz());
+  msg->set_device_sample_rate(echo_cancellation_->device_sample_rate_hz());
   msg->set_num_input_channels(num_input_channels_);
   msg->set_num_output_channels(num_output_channels_);
   msg->set_num_reverse_channels(num_reverse_channels_);

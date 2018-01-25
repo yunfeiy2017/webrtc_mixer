@@ -848,7 +848,7 @@ static void ProcessBlock(aec_t* aec) {
         WebRtc_WriteBuffer(aec->outFrBufH, outputH, PART_LEN);
     }
 
-#ifdef WEBRTC_AEC_DEBUG_DUMP
+#ifdef WEBRTC_AEC_DEBUG_DUMP 
     {
         int16_t eInt16[PART_LEN];
         for (i = 0; i < PART_LEN; i++) {

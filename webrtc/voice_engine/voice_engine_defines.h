@@ -132,6 +132,7 @@ enum { kVoiceEngineMaxRtpExtensionId = 14 };
 // TODO(andrew): we shouldn't be using the precompiler for this.
 // Use enums or bools as appropriate.
 #define WEBRTC_AUDIO_PROCESSING_OFF false
+#define WEBRTC_AUDIO_PROCESSING_ON true
 
 #define WEBRTC_VOICE_ENGINE_HP_DEFAULT_STATE true
     // AudioProcessing HP is ON
@@ -149,6 +150,8 @@ enum { kVoiceEngineMaxRtpExtensionId = 14 };
     // AudioProcessing RX NS off
 #define WEBRTC_VOICE_ENGINE_RX_HP_DEFAULT_STATE WEBRTC_AUDIO_PROCESSING_OFF
     // AudioProcessing RX High Pass Filter off
+#define WEBRTC_VOICE_ENGINE_RX_AEC_DEFAULT_STATE WEBRTC_AUDIO_PROCESSING_ON
+	// AudioProcessing RX AEC on
 
 #define WEBRTC_VOICE_ENGINE_NS_DEFAULT_MODE NoiseSuppression::kModerate
     // AudioProcessing NS moderate suppression

@@ -56,6 +56,31 @@ int VoEMixerImpl::RegisterExternalStreamReceiver(StreamReceiver& receiver)
 	return _shared->output_mixer()->RegisterExternalStreamReceiver(receiver);
 }
 
+int VoEMixerImpl::addAECFarendData(AudioFrame &audioFrame)
+{
+	WebRtc_Word32 numOfChannels = _shared->channel_manager().NumOfChannels();
+	if (numOfChannels <= 0)
+	{
+		return 0;
+	}
+
+	WebRtc_Word32* channelsArray = new WebRtc_Word32[numOfChannels];
+
+	// Get number of playing channels
+	_shared->channel_manager().GetChannelIds(channelsArray, numOfChannels);
+	for (int i = 0; i < numOfChannels; i++)
+	{
+		voe::ScopedChannel sc(_shared->channel_manager(), channelsArray[i]);
+		voe::Channel* chPtr = sc.ChannelPtr();
+		if (chPtr)
+		{
+			chPtr->addAECFarendData(audioFrame);
+		}
+	}
+	delete[] channelsArray;
+	return 0;
+}
+
 // Process should be called every kProcessPeriodicityInMs ms
 WebRtc_Word32 VoEMixerImpl::TimeUntilNextProcess()
 {

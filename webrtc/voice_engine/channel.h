@@ -362,6 +362,9 @@ public:
                              unsigned short payloadSize);
     uint32_t LastRemoteTimeStamp() { return _lastRemoteTimeStamp; }
 
+	//VoEMixer
+	int addAECFarendData(AudioFrame &audioFrame);
+
 public:
     // From AudioPacketizationCallback in the ACM
     WebRtc_Word32 SendData(FrameType frameType,

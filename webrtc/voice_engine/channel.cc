@@ -863,7 +863,7 @@ WebRtc_Word32 Channel::GetAudioFrame(const WebRtc_Word32 id,
     _outputSpeechType = audioFrame.speech_type_;
 
     // Perform far-end AudioProcessing module processing on the received signal
-    if (_rxApmIsEnabled)
+    //if (_rxApmIsEnabled)
     {
         ApmProcessRx(audioFrame);
     }
@@ -1617,6 +1617,14 @@ Channel::Init()
             VE_APM_ERROR, kTraceWarning,
             "Init() failed to set AGC state for far-end AP module");
     }
+
+	if (_rxAudioProcessingModulePtr->echo_cancellation()->Enable(
+		WEBRTC_VOICE_ENGINE_RX_AEC_DEFAULT_STATE) != 0)
+	{
+		_engineStatisticsPtr->SetLastError(
+			VE_APM_ERROR, kTraceWarning,
+			"Init() failed to set AGC state for far-end AP module");
+	}
 
     return 0;
 }
@@ -5855,6 +5863,14 @@ Channel::InsertExtraRTPPacket(unsigned char payloadType,
     return 0;
 }
 
+int Channel::addAECFarendData(AudioFrame &audioFrame)
+{
+	AudioProcessing* audioproc = _rxAudioProcessingModulePtr;
+	audioproc->AnalyzeReverseStream(&audioFrame);
+
+	return 0;
+}
+
 WebRtc_UWord32
 Channel::Demultiplex(const AudioFrame& audioFrame)
 {
@@ -6688,6 +6704,12 @@ int Channel::ApmProcessRx(AudioFrame& frame) {
   if (audioproc->set_num_channels(frame.num_channels_,
                                   frame.num_channels_) != 0) {
     LOG_FERR1(LS_WARNING, set_num_channels, frame.num_channels_);
+  }
+  if (audioproc->set_stream_delay_ms(0) == -1)
+  {
+	  WEBRTC_TRACE(kTraceWarning, kTraceVoice, VoEId(_instanceId, -1),
+		  "AudioProcessing::set_stream_delay_ms(%u) => error",
+		  0);
   }
   if (audioproc->ProcessStream(&frame) != 0) {
     LOG_FERR0(LS_WARNING, ProcessStream);

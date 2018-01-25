@@ -21,7 +21,7 @@
 namespace webrtc {
 class AudioBuffer;
 class CriticalSectionWrapper;
-//class EchoCancellationImpl;
+class EchoCancellationImpl;
 //class EchoControlMobileImpl;
 class FileWrapper;
 class GainControlImpl;
@@ -44,7 +44,8 @@ class AudioProcessingImpl : public AudioProcessing {
   enum {
     kSampleRate8kHz = 8000,
     kSampleRate16kHz = 16000,
-    kSampleRate32kHz = 32000
+    kSampleRate32kHz = 32000,
+	kSampleRate48kHz = 48000
   };
 
   explicit AudioProcessingImpl(int id);
@@ -73,7 +74,7 @@ class AudioProcessingImpl : public AudioProcessing {
   virtual int delay_offset_ms() const;
   virtual int StartDebugRecording(const char filename[kMaxFilenameSize]);
   virtual int StopDebugRecording();
-  //virtual EchoCancellation* echo_cancellation() const{};
+  virtual EchoCancellation* echo_cancellation() const;
   //virtual EchoControlMobile* echo_control_mobile() const{};
   virtual GainControl* gain_control() const;
   virtual HighPassFilter* high_pass_filter() const;
@@ -92,7 +93,7 @@ class AudioProcessingImpl : public AudioProcessing {
 
   int id_;
 
-//  EchoCancellationImpl* echo_cancellation_;
+  EchoCancellationImpl* echo_cancellation_;
 //  EchoControlMobileImpl* echo_control_mobile_;
   GainControlImpl* gain_control_;
   HighPassFilterImpl* high_pass_filter_;

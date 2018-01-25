@@ -281,6 +281,7 @@
     <ClCompile Include="audio_processing\agc\digital_agc.c" />
     <ClCompile Include="audio_processing\audio_buffer.cc" />
     <ClCompile Include="audio_processing\audio_processing_impl.cc" />
+    <ClCompile Include="audio_processing\echo_cancellation_impl.cc" />
     <ClCompile Include="audio_processing\gain_control_impl.cc" />
     <ClCompile Include="audio_processing\high_pass_filter_impl.cc" />
     <ClCompile Include="audio_processing\level_estimator_impl.cc" />
@@ -308,6 +309,7 @@
     <ClInclude Include="audio_processing\agc\include\gain_control.h" />
     <ClInclude Include="audio_processing\audio_buffer.h" />
     <ClInclude Include="audio_processing\audio_processing_impl.h" />
+    <ClInclude Include="audio_processing\echo_cancellation_impl.h" />
     <ClInclude Include="audio_processing\gain_control_impl.h" />
     <ClInclude Include="audio_processing\high_pass_filter_impl.h" />
     <ClInclude Include="audio_processing\include\audio_processing.h" />
