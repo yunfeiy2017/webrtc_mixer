@@ -20,6 +20,8 @@ int main()
 	engine->start();
 	printf("Press ENTER to exit...\r\n");
 	getchar();
+	short* data[80];
+	engine->addAECFarendData(data, 80, 1, 8000);
 	engine->stop();
 	MixerEngine::Destroy(engine);
 	return 0;

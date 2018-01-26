@@ -274,6 +274,7 @@ namespace mixerengine {
 		TerminateThread(_threadHandle, 0);
 		if (pcmFile)
 			fclose(pcmFile);
+		pcmFile = NULL;
 		return 0;
 	}
 
