@@ -97,19 +97,19 @@ WebRtc_Word32 WebRtcAec_Create(void **aecInst)
     }
     {
       char filename[64];
-      sprintf(filename, "aec_far%d.pcm", instance_count);
+      sprintf(filename, "C:\\voip\\mix\\aec_far%d.pcm", instance_count);
       aecpc->aec->farFile = fopen(filename, "wb");
-      sprintf(filename, "aec_near%d.pcm", instance_count);
+      sprintf(filename, "C:\\voip\\mix\\aec_near%d.pcm", instance_count);
       aecpc->aec->nearFile = fopen(filename, "wb");
-      sprintf(filename, "aec_out%d.pcm", instance_count);
+      sprintf(filename, "C:\\voip\\mix\\aec_out%d.pcm", instance_count);
       aecpc->aec->outFile = fopen(filename, "wb");
-      sprintf(filename, "aec_out_linear%d.pcm", instance_count);
+      sprintf(filename, "C:\\voip\\mix\\aec_out_linear%d.pcm", instance_count);
       aecpc->aec->outLinearFile = fopen(filename, "wb");
-      sprintf(filename, "aec_buf%d.dat", instance_count);
+      sprintf(filename, "C:\\voip\\mix\\aec_buf%d.dat", instance_count);
       aecpc->bufFile = fopen(filename, "wb");
-      sprintf(filename, "aec_skew%d.dat", instance_count);
+      sprintf(filename, "C:\\voip\\mix\\aec_skew%d.dat", instance_count);
       aecpc->skewFile = fopen(filename, "wb");
-      sprintf(filename, "aec_delay%d.dat", instance_count);
+      sprintf(filename, "C:\\voip\\mix\\aec_delay%d.dat", instance_count);
       aecpc->delayFile = fopen(filename, "wb");
       instance_count++;
     }

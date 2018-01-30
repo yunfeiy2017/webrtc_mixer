@@ -55,7 +55,7 @@ int VoEMixerImpl::RegisterExternalStreamReceiver(StreamReceiver& receiver)
 	assert(_shared->output_mixer() != NULL);
 	return _shared->output_mixer()->RegisterExternalStreamReceiver(receiver);
 }
-
+FILE* mixerFile = NULL;
 int VoEMixerImpl::addAECFarendData(AudioFrame &audioFrame)
 {
 	WebRtc_Word32 numOfChannels = _shared->channel_manager().NumOfChannels();
@@ -63,8 +63,13 @@ int VoEMixerImpl::addAECFarendData(AudioFrame &audioFrame)
 	{
 		return 0;
 	}
-
-	WebRtc_Word32* channelsArray = new WebRtc_Word32[numOfChannels];
+	if (mixerFile == NULL)
+		mixerFile = fopen("C:\\voip\\mix\\voeaddfar.pcm", "wb");
+	if (mixerFile) {
+		fwrite(audioFrame.data_, 2, audioFrame.samples_per_channel_, mixerFile);
+		fflush(mixerFile);
+	}
+	WebRtc_Word32* channelsArray = new WebRtc_Word32[numOfChannels]; 
 
 	// Get number of playing channels
 	_shared->channel_manager().GetChannelIds(channelsArray, numOfChannels);

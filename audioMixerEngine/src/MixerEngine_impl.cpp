@@ -196,7 +196,7 @@ namespace mixerengine {
 			printf("WSAStartup failed");
 		}
 		_vePtr = VoiceEngine::Create();
-		_numOfChannel = 8;
+		_numOfChannel = CONF_USER_COUNT;
 		_id = 0;
 
 		VoiceEngine::SetTraceFilter(kTraceNone);
@@ -210,8 +210,7 @@ namespace mixerengine {
 			_veCodecPtr = VoECodec::GetInterface(_vePtr);
 			_veMixerPtr = VoEMixer::GetInterface(_vePtr);
 		}
-		_veBasePtr->Init();
-		_veMixerPtr->start();
+		_veBasePtr->Init();		
 		_veMixerPtr->RegisterExternalStreamReceiver(*this);
 
 		for (int i = 0; i < _numOfChannel; i++)
@@ -223,6 +222,8 @@ namespace mixerengine {
 				m_userList[i]->_socket,
 				m_userList[i]->_localPort);
 		}
+
+		_veMixerPtr->start();
 	}
 	MixerEngineImpl::~MixerEngineImpl()
 	{

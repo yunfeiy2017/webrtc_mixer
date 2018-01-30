@@ -14,16 +14,21 @@
 #include <string.h>
 
 #include "critical_section_wrapper.h"
+#ifndef USE_NEW_WEBRTC_AEC
 #include "echo_cancellation.h"
-
+#endif
 #include "audio_processing_impl.h"
 #include "audio_buffer.h"
-
+#ifdef USE_NEW_WEBRTC_AEC
+#pragma comment(lib, "AudioEchoCancellation.lib")
+using namespace audioechocancellation;
+#endif
 namespace webrtc {
 
 typedef void Handle;
 
 namespace {
+#ifndef USE_NEW_WEBRTC_AEC
 WebRtc_Word16 MapSetting(EchoCancellation::SuppressionLevel level) {
   switch (level) {
     case EchoCancellation::kLowSuppression:
@@ -52,6 +57,7 @@ AudioProcessing::Error MapError(int err) {
       return AudioProcessing::kUnspecifiedError;
   }
 }
+#endif
 }  // namespace
 
 EchoCancellationImpl::EchoCancellationImpl(const AudioProcessingImpl* apm)
@@ -82,11 +88,17 @@ int EchoCancellationImpl::ProcessRenderAudio(const AudioBuffer* audio) {
   size_t handle_index = 0;
   for (int i = 0; i < apm_->num_output_channels(); i++) {
     for (int j = 0; j < audio->num_channels(); j++) {
-      Handle* my_handle = static_cast<Handle*>(handle(handle_index));
-      err = WebRtcAec_BufferFarend(
+      
+#ifndef  USE_NEW_WEBRTC_AEC
+		Handle* my_handle = static_cast<Handle*>(handle(handle_index));
+		err = WebRtcAec_BufferFarend(
           my_handle,
           audio->low_pass_split_data(j),
           static_cast<WebRtc_Word16>(audio->samples_per_split_channel()));
+#else
+		CAudioEchoCancellation* my_handle = static_cast<CAudioEchoCancellation*>(handle(handle_index));
+		err = my_handle->BufferFarendFrame(audio->low_pass_split_data(j), static_cast<WebRtc_Word16>(audio->samples_per_split_channel()));
+#endif
 
       if (err != apm_->kNoError) {
         return GetHandleError(my_handle);  // TODO(ajm): warning possible?
@@ -121,18 +133,27 @@ int EchoCancellationImpl::ProcessCaptureAudio(AudioBuffer* audio) {
   size_t handle_index = 0;
   stream_has_echo_ = false;
   for (int i = 0; i < audio->num_channels(); i++) {
-    for (int j = 0; j < apm_->num_reverse_channels(); j++) {
-      Handle* my_handle = handle(handle_index);
-      err = WebRtcAec_Process(
+    for (int j = 0; j < apm_->num_reverse_channels(); j++) {     
+#ifndef USE_NEW_WEBRTC_AEC
+	  Handle* my_handle = handle(handle_index);
+	  err = WebRtcAec_Process(
           my_handle,
           audio->low_pass_split_data(i),
           audio->high_pass_split_data(i),
           audio->low_pass_split_data(i),
           audio->high_pass_split_data(i),
           static_cast<WebRtc_Word16>(audio->samples_per_split_channel()),
-          apm_->stream_delay_ms(),
-          stream_drift_samples_);
-
+          400,
+          0);
+#else
+		CAudioEchoCancellation* my_handle = static_cast<CAudioEchoCancellation*>(handle(handle_index));
+	  err = my_handle->ProcessFrame(audio->low_pass_split_data(i), 
+		  1, 
+		  audio->low_pass_split_data(i), 
+		  static_cast<WebRtc_Word16>(audio->samples_per_split_channel()), 
+		  0, 
+		  0);
+#endif
       if (err != apm_->kNoError) {
         err = GetHandleError(my_handle);
         // TODO(ajm): Figure out how to return warnings properly.
@@ -140,7 +161,7 @@ int EchoCancellationImpl::ProcessCaptureAudio(AudioBuffer* audio) {
           return err;
         }
       }
-
+#ifndef USE_NEW_WEBRTC_AEC
       WebRtc_Word16 status = 0;
       err = WebRtcAec_get_echo_status(my_handle, &status);
       if (err != apm_->kNoError) {
@@ -150,7 +171,7 @@ int EchoCancellationImpl::ProcessCaptureAudio(AudioBuffer* audio) {
       if (status == 1) {
         stream_has_echo_ = true;
       }
-
+#endif
       handle_index++;
     }
   }
@@ -175,9 +196,11 @@ bool EchoCancellationImpl::is_enabled() const {
 
 int EchoCancellationImpl::set_suppression_level(SuppressionLevel level) {
   CriticalSectionScoped crit_scoped(apm_->crit());
+#ifndef USE_NEW_WEBRTC_AEC
   if (MapSetting(level) == -1) {
     return apm_->kBadParameterError;
   }
+#endif
 
   suppression_level_ = level;
   return Configure();
@@ -243,7 +266,7 @@ int EchoCancellationImpl::GetMetrics(Metrics* metrics) {
   if (!is_component_enabled() || !metrics_enabled_) {
     return apm_->kNotEnabledError;
   }
-
+#ifndef USE_NEW_WEBRTC_AEC
   AecMetrics my_metrics;
   memset(&my_metrics, 0, sizeof(my_metrics));
   memset(metrics, 0, sizeof(Metrics));
@@ -273,7 +296,7 @@ int EchoCancellationImpl::GetMetrics(Metrics* metrics) {
   metrics->a_nlp.average = my_metrics.aNlp.average;
   metrics->a_nlp.maximum = my_metrics.aNlp.max;
   metrics->a_nlp.minimum = my_metrics.aNlp.min;
-
+#endif
   return apm_->kNoError;
 }
 
@@ -304,13 +327,13 @@ int EchoCancellationImpl::GetDelayMetrics(int* median, int* std) {
   if (!is_component_enabled() || !delay_logging_enabled_) {
     return apm_->kNotEnabledError;
   }
-
+#ifndef USE_NEW_WEBRTC_AEC
   Handle* my_handle = static_cast<Handle*>(handle(0));
   if (WebRtcAec_GetDelayMetrics(my_handle, median, std) !=
       apm_->kNoError) {
     return GetHandleError(my_handle);
   }
-
+#endif
   return apm_->kNoError;
 }
 
@@ -327,29 +350,42 @@ int EchoCancellationImpl::Initialize() {
 
 void* EchoCancellationImpl::CreateHandle() const {
   Handle* handle = NULL;
+#ifdef USE_NEW_WEBRTC_AEC
+  handle = CAudioEchoCancellation::Create(8000, 8000);
+#else
   if (WebRtcAec_Create(&handle) != apm_->kNoError) {
     handle = NULL;
   } else {
     assert(handle != NULL);
   }
-
+#endif
   return handle;
 }
 
 int EchoCancellationImpl::DestroyHandle(void* handle) const {
   assert(handle != NULL);
+#ifndef USE_NEW_WEBRTC_AEC
   return WebRtcAec_Free(static_cast<Handle*>(handle));
+#else
+  CAudioEchoCancellation::Destroy((CAudioEchoCancellation*)handle);
+  return 0;
+#endif
 }
 
 int EchoCancellationImpl::InitializeHandle(void* handle) const {
   assert(handle != NULL);
+#ifndef USE_NEW_WEBRTC_AEC
   return WebRtcAec_Init(static_cast<Handle*>(handle),
                        apm_->sample_rate_hz(),
                        device_sample_rate_hz_);
+#else
+  return 0;
+#endif
 }
 
 int EchoCancellationImpl::ConfigureHandle(void* handle) const {
   assert(handle != NULL);
+#ifndef USE_NEW_WEBRTC_AEC
   AecConfig config;
   config.metricsMode = metrics_enabled_;
   config.nlpMode = MapSetting(suppression_level_);
@@ -357,6 +393,9 @@ int EchoCancellationImpl::ConfigureHandle(void* handle) const {
   config.delay_logging = delay_logging_enabled_;
 
   return WebRtcAec_set_config(static_cast<Handle*>(handle), config);
+#else
+  return 0;
+#endif
 }
 
 int EchoCancellationImpl::num_handles_required() const {
@@ -366,6 +405,10 @@ int EchoCancellationImpl::num_handles_required() const {
 
 int EchoCancellationImpl::GetHandleError(void* handle) const {
   assert(handle != NULL);
+#ifndef USE_NEW_WEBRTC_AEC
   return MapError(WebRtcAec_get_error_code(static_cast<Handle*>(handle)));
+#else
+  return 0;
+#endif
 }
 }  // namespace webrtc

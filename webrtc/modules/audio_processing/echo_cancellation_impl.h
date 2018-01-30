@@ -10,10 +10,12 @@
 
 #ifndef WEBRTC_MODULES_AUDIO_PROCESSING_ECHO_CANCELLATION_IMPL_H_
 #define WEBRTC_MODULES_AUDIO_PROCESSING_ECHO_CANCELLATION_IMPL_H_
-
+#define USE_NEW_WEBRTC_AEC
 #include "audio_processing.h"
 #include "processing_component.h"
-
+#ifdef USE_NEW_WEBRTC_AEC
+#include "AudioEchoCancellation.h"
+#endif
 namespace webrtc {
 class AudioProcessingImpl;
 class AudioBuffer;
