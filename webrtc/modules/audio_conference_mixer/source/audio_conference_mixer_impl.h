@@ -40,10 +40,12 @@ public:
 
     // Updates the mixed status.
     WebRtc_Word32 SetIsMixed(const bool mixed);
+	int  _weight;
 
     void ResetMixedStatus();
 private:
     bool _isMixed;
+	
 };
 
 class AudioConferenceMixerImpl : public AudioConferenceMixer

@@ -40,7 +40,7 @@ void SetParticipantStatistics(ParticipantStatistics* stats,
 }
 
 }  // namespace
-
+#define RAMPOUTDELAY 100
 MixerParticipant::MixerParticipant()
     : _mixHistory(new MixHistory())
 {
@@ -57,7 +57,7 @@ WebRtc_Word32 MixerParticipant::IsMixed(bool& mixed) const
 }
 
 MixHistory::MixHistory()
-    : _isMixed(0)
+    : _isMixed(0), _weight(0)
 {
 }
 
@@ -87,6 +87,7 @@ WebRtc_Word32 MixHistory::SetIsMixed(const bool mixed)
 void MixHistory::ResetMixedStatus()
 {
     _isMixed = false;
+	_weight = 0;
 }
 
 AudioConferenceMixer* AudioConferenceMixer::Create(int id)
@@ -856,6 +857,249 @@ void AudioConferenceMixerImpl::UpdateToMix(
     ListWrapper passiveWasNotMixedList; // Elements are MixerParticipant
     ListWrapper passiveWasMixedList;    // Elements are MixerParticipant
     ListItem* item = _participantList.First();
+	ListItem* highestItem = NULL;
+	int highestEnergy = 0;
+#if 1
+	while (item)
+	{
+		// Stop keeping track of passive participants if there are already
+		// enough participants available (they wont be mixed anyway).
+		bool mustAddToPassiveList = (maxAudioFrameCounter >
+			(activeList.GetSize() +
+				passiveWasMixedList.GetSize() +
+				passiveWasNotMixedList.GetSize()));
+
+		MixerParticipant* participant = static_cast<MixerParticipant*>(
+			item->GetItem());
+		bool wasMixed = false;
+		participant->_mixHistory->WasMixed(wasMixed);
+		AudioFrame* audioFrame = NULL;
+		if (_audioFramePool->PopMemory(audioFrame) == -1)
+		{
+			WEBRTC_TRACE(kTraceMemory, kTraceAudioMixerServer, _id,
+				"failed PopMemory() call");
+			assert(false);
+			return;
+		}
+		audioFrame->sample_rate_hz_ = _outputFrequency;
+
+		if (participant->GetAudioFrame(_id, *audioFrame) != 0)
+		{
+			WEBRTC_TRACE(kTraceWarning, kTraceAudioMixerServer, _id,
+				"failed to GetAudioFrame() from participant");
+			_audioFramePool->PushMemory(audioFrame);
+			item = _participantList.Next(item);
+			continue;
+		}
+		// TODO(henrike): this assert triggers in some test cases where SRTP is
+		// used which prevents NetEQ from making a VAD. Temporarily disable this
+		// assert until the problem is fixed on a higher level.
+		// assert(audioFrame->vad_activity_ != AudioFrame::kVadUnknown);
+		if (audioFrame->vad_activity_ == AudioFrame::kVadUnknown)
+		{
+			WEBRTC_TRACE(kTraceWarning, kTraceAudioMixerServer, _id,
+				"invalid VAD state from participant");
+		}
+
+		if (audioFrame->vad_activity_ == AudioFrame::kVadActive)
+		{
+			if (!wasMixed)
+			{
+				RampIn(*audioFrame);
+			}
+
+			CalculateEnergy(*audioFrame);
+
+			if (audioFrame->energy_ > highestEnergy)
+			{
+				highestEnergy = audioFrame->energy_;
+				highestItem = item;
+			}
+			if (activeList.GetSize() >= maxAudioFrameCounter)
+			{
+				// There are already more active participants than should be
+				// mixed. Only keep the ones with the highest energy.
+				ListItem* replaceItem = NULL;
+				ListItem* lowestItem = NULL;
+				CalculateEnergy(*audioFrame);
+				WebRtc_UWord32 lowestEnergy = audioFrame->energy_;
+				WebRtc_UWord32 secondLowestEnergy = 0;
+
+				ListItem* activeItem = activeList.First();
+				while (activeItem)
+				{
+					AudioFrame* replaceFrame = static_cast<AudioFrame*>(
+						activeItem->GetItem());
+					CalculateEnergy(*replaceFrame);
+					if (replaceFrame->energy_ < lowestEnergy)
+					{
+						replaceItem = activeItem;
+						lowestEnergy = replaceFrame->energy_;
+					}
+					if (0 == secondLowestEnergy)
+					{
+						lowestItem = activeItem;
+						secondLowestEnergy = replaceFrame->energy_;
+					}
+					else if (replaceFrame->energy_ < secondLowestEnergy)
+					{
+						lowestItem = activeItem;
+						secondLowestEnergy = replaceFrame->energy_;
+					}
+					activeItem = activeList.Next(activeItem);
+				}
+				if (replaceItem != NULL)
+				{
+					AudioFrame* replaceFrame = static_cast<AudioFrame*>(
+						replaceItem->GetItem());
+
+					bool replaceWasMixed = false;
+					MapItem* replaceParticipant = mixParticipantList.Find(
+						replaceFrame->id_);
+					// When a frame is pushed to |activeList| it is also pushed
+					// to mixParticipantList with the frame's id. This means
+					// that the Find call above should never fail.
+					if (replaceParticipant == NULL)
+					{
+						assert(false);
+					}
+					else {
+						MixerParticipant *replaceInstance = static_cast<MixerParticipant*>(
+							replaceParticipant->GetItem());
+						replaceInstance->_mixHistory->
+							WasMixed(replaceWasMixed);
+						if (replaceWasMixed)
+						{
+							replaceInstance->_mixHistory->_weight+=2;
+						}
+
+						if (!replaceWasMixed || replaceInstance->_mixHistory->_weight > RAMPOUTDELAY)
+						{
+							if (replaceInstance->_mixHistory->_weight > RAMPOUTDELAY)
+								replaceInstance->_mixHistory->_weight = RAMPOUTDELAY;
+							//擦除音量小的
+							mixParticipantList.Erase(replaceFrame->id_);
+							activeList.Erase(replaceItem);
+							//加入音量大的
+							activeList.PushFront(static_cast<void*>(audioFrame));
+							mixParticipantList.Insert(
+								audioFrame->id_,
+								static_cast<void*>(participant));
+							assert(mixParticipantList.Size() <=
+								kMaximumAmountOfMixedParticipants);
+							//rampout
+							if (replaceWasMixed)
+							{
+								RampOut(*replaceFrame);
+								rampOutList.PushBack(
+									static_cast<void*>(replaceFrame));
+								rampOutParticipantList.Insert(
+									replaceFrame->id_,
+									static_cast<void*>(replaceInstance));
+								replaceInstance->_mixHistory->_weight = 0;
+								assert(rampOutList.GetSize() <=
+									kMaximumAmountOfMixedParticipants);
+							}
+							else {
+								_audioFramePool->PushMemory(replaceFrame);
+							}
+						}
+					}
+				}
+				else {
+					if (wasMixed)
+					{
+						participant->_mixHistory->_weight+=2;
+						if (participant->_mixHistory->_weight > RAMPOUTDELAY)
+						{
+							RampOut(*audioFrame);
+							rampOutParticipantList.Insert(
+								audioFrame->id_,
+								static_cast<void*>(participant));
+							rampOutList.PushBack(static_cast<void*>(audioFrame));
+							participant->_mixHistory->_weight = 0;
+							assert(rampOutList.GetSize() <=
+								kMaximumAmountOfMixedParticipants);
+						}
+						else {
+							AudioFrame* replaceFrame = static_cast<AudioFrame*>(
+								lowestItem->GetItem());
+
+							bool replaceWasMixed = false;
+							MapItem* replaceParticipant = mixParticipantList.Find(
+								replaceFrame->id_);
+							if (replaceParticipant == NULL)
+							{
+								assert(false);
+							}
+							else {
+								MixerParticipant *replaceInstance = static_cast<MixerParticipant*>(
+									replaceParticipant->GetItem());
+
+								//擦除音量小的
+								mixParticipantList.Erase(replaceFrame->id_);
+								activeList.Erase(lowestItem);
+								//加入音量大的
+								activeList.PushFront(static_cast<void*>(audioFrame));
+								mixParticipantList.Insert(
+									audioFrame->id_,
+									static_cast<void*>(participant));
+								assert(mixParticipantList.Size() <=
+									kMaximumAmountOfMixedParticipants);
+								//rampout
+								if (replaceWasMixed)
+								{
+									RampOut(*replaceFrame);
+									rampOutList.PushBack(
+										static_cast<void*>(replaceFrame));
+									rampOutParticipantList.Insert(
+										replaceFrame->id_,
+										static_cast<void*>(replaceInstance));
+									replaceInstance->_mixHistory->_weight = 0;
+									assert(rampOutList.GetSize() <=
+										kMaximumAmountOfMixedParticipants);
+								}
+								else {
+									_audioFramePool->PushMemory(replaceFrame);
+								}
+							}
+						}
+					}
+					else {
+						_audioFramePool->PushMemory(audioFrame);
+					}
+				}
+			}
+			else {
+				activeList.PushFront(static_cast<void*>(audioFrame));
+				mixParticipantList.Insert(audioFrame->id_,
+					static_cast<void*>(participant));
+				assert(mixParticipantList.Size() <=
+					kMaximumAmountOfMixedParticipants);
+			}
+		}
+		else {
+			if (wasMixed)
+			{
+				ParticipantFramePair* pair = new ParticipantFramePair;
+				pair->audioFrame = audioFrame;
+				pair->participant = participant;
+				passiveWasMixedList.PushBack(static_cast<void*>(pair));
+			}
+			else if (mustAddToPassiveList) {
+				RampIn(*audioFrame);
+				ParticipantFramePair* pair = new ParticipantFramePair;
+				pair->audioFrame = audioFrame;
+				pair->participant = participant;
+				passiveWasNotMixedList.PushBack(static_cast<void*>(pair));
+			}
+			else {
+				_audioFramePool->PushMemory(audioFrame);
+			}
+		}
+		item = _participantList.Next(item);
+	}
+#else
     while(item)
     {
         // Stop keeping track of passive participants if there are already
@@ -897,20 +1141,29 @@ void AudioConferenceMixerImpl::UpdateToMix(
                          "invalid VAD state from participant");
         }
 
-        if(audioFrame->vad_activity_ == AudioFrame::kVadActive)
+        if(audioFrame->vad_activity_ == AudioFrame::kVadActive)   
         {
             if(!wasMixed)
             {
                 RampIn(*audioFrame);
             }
 
+			CalculateEnergy(*audioFrame);
+
+			if (audioFrame->energy_ > highestEnergy)
+			{
+				highestEnergy = audioFrame->energy_;
+				highestItem = item;
+			}
             if(activeList.GetSize() >= maxAudioFrameCounter)
             {
                 // There are already more active participants than should be
                 // mixed. Only keep the ones with the highest energy.
                 ListItem* replaceItem = NULL;
+				ListItem* lowestItem = NULL;
                 CalculateEnergy(*audioFrame);
                 WebRtc_UWord32 lowestEnergy = audioFrame->energy_;
+				WebRtc_UWord32 secondLowestEnergy = 0;
 
                 ListItem* activeItem = activeList.First();
                 while(activeItem)
@@ -922,7 +1175,17 @@ void AudioConferenceMixerImpl::UpdateToMix(
                     {
                         replaceItem = activeItem;
                         lowestEnergy = replaceFrame->energy_;
-                    }
+					}					
+					if (0 == secondLowestEnergy)
+					{
+						lowestItem = activeItem;
+						secondLowestEnergy = replaceFrame->energy_;
+					}
+					else if(replaceFrame->energy_ < secondLowestEnergy)
+					{
+						lowestItem = activeItem;
+						secondLowestEnergy = replaceFrame->energy_;
+					}
                     activeItem = activeList.Next(activeItem);
                 }
                 if(replaceItem != NULL)
@@ -939,46 +1202,107 @@ void AudioConferenceMixerImpl::UpdateToMix(
                     if(replaceParticipant == NULL)
                     {
                         assert(false);
-                    } else {
+					}
+					else {
 						MixerParticipant *replaceInstance = static_cast<MixerParticipant*>(
 							replaceParticipant->GetItem());
-                        replaceInstance->_mixHistory->
-                            WasMixed(replaceWasMixed);
+						replaceInstance->_mixHistory->
+							WasMixed(replaceWasMixed);
+						if (replaceWasMixed)
+						{
+							replaceInstance->_mixHistory->_weight++;
+						}
 
-                        mixParticipantList.Erase(replaceFrame->id_);
-                        activeList.Erase(replaceItem);
-
-                        activeList.PushFront(static_cast<void*>(audioFrame));
-                        mixParticipantList.Insert(
-                            audioFrame->id_,
-                            static_cast<void*>(participant));
-                        assert(mixParticipantList.Size() <=
-                               kMaximumAmountOfMixedParticipants);
-
-                        if(replaceWasMixed)
-                        {
-                            RampOut(*replaceFrame);
-                            rampOutList.PushBack(
-                                static_cast<void*>(replaceFrame));
-							rampOutParticipantList.Insert(
-								replaceFrame->id_,
-								static_cast<void*>(replaceInstance));
-                            assert(rampOutList.GetSize() <=
-                                   kMaximumAmountOfMixedParticipants);
-                        } else {
-                            _audioFramePool->PushMemory(replaceFrame);
-                        }
+						if (!replaceWasMixed || replaceInstance->_mixHistory->_weight > RAMPOUTDELAY)
+						{
+							if (replaceInstance->_mixHistory->_weight > RAMPOUTDELAY)
+								replaceInstance->_mixHistory->_weight = RAMPOUTDELAY;
+							//擦除音量小的
+							mixParticipantList.Erase(replaceFrame->id_);
+							activeList.Erase(replaceItem);
+							//加入音量大的
+							activeList.PushFront(static_cast<void*>(audioFrame));
+							mixParticipantList.Insert(
+								audioFrame->id_,
+								static_cast<void*>(participant));
+							assert(mixParticipantList.Size() <=
+								kMaximumAmountOfMixedParticipants);
+							//rampout
+							if (replaceWasMixed)
+							{
+								RampOut(*replaceFrame);
+								rampOutList.PushBack(
+									static_cast<void*>(replaceFrame));
+								rampOutParticipantList.Insert(
+									replaceFrame->id_,
+									static_cast<void*>(replaceInstance));
+								replaceInstance->_mixHistory->_weight = 0;
+								assert(rampOutList.GetSize() <=
+									kMaximumAmountOfMixedParticipants);
+							}
+							else {
+								_audioFramePool->PushMemory(replaceFrame);
+							}
+						}
                     }
                 } else {
                     if(wasMixed)
                     {
-                        RampOut(*audioFrame);
-						rampOutParticipantList.Insert(
-							audioFrame->id_,
-							static_cast<void*>(participant));
-                        rampOutList.PushBack(static_cast<void*>(audioFrame));
-                        assert(rampOutList.GetSize() <=
-                               kMaximumAmountOfMixedParticipants);
+						participant->_mixHistory->_weight++;
+						if (participant->_mixHistory->_weight > RAMPOUTDELAY)
+						{
+							RampOut(*audioFrame);
+							rampOutParticipantList.Insert(
+								audioFrame->id_,
+								static_cast<void*>(participant));
+							rampOutList.PushBack(static_cast<void*>(audioFrame));
+							participant->_mixHistory->_weight = 0;
+							assert(rampOutList.GetSize() <=
+								kMaximumAmountOfMixedParticipants);
+						}
+						else {
+							AudioFrame* replaceFrame = static_cast<AudioFrame*>(
+								lowestItem->GetItem());
+
+							bool replaceWasMixed = false;
+							MapItem* replaceParticipant = mixParticipantList.Find(
+								replaceFrame->id_);
+							if (replaceParticipant == NULL)
+							{
+								assert(false);
+							}
+							else {
+								MixerParticipant *replaceInstance = static_cast<MixerParticipant*>(
+									replaceParticipant->GetItem());
+								
+								//擦除音量小的
+								mixParticipantList.Erase(replaceFrame->id_);
+								activeList.Erase(lowestItem);
+								//加入音量大的
+								activeList.PushFront(static_cast<void*>(audioFrame));
+								mixParticipantList.Insert(
+									audioFrame->id_,
+									static_cast<void*>(participant));
+								assert(mixParticipantList.Size() <=
+									kMaximumAmountOfMixedParticipants);
+								//rampout
+								if (replaceWasMixed)
+								{
+									RampOut(*replaceFrame);
+									rampOutList.PushBack(
+										static_cast<void*>(replaceFrame));
+									rampOutParticipantList.Insert(
+										replaceFrame->id_,
+										static_cast<void*>(replaceInstance));
+									replaceInstance->_mixHistory->_weight = 0;
+									assert(rampOutList.GetSize() <=
+										kMaximumAmountOfMixedParticipants);
+								}
+								else {
+									_audioFramePool->PushMemory(replaceFrame);
+								}								
+							}
+						}
                     } else {
                         _audioFramePool->PushMemory(audioFrame);
                     }
@@ -1009,6 +1333,32 @@ void AudioConferenceMixerImpl::UpdateToMix(
         }
         item = _participantList.Next(item);
     }
+#endif
+	if (highestItem != NULL)//具有最大能量值的participant恢复权值为0
+	{
+		MixerParticipant* participant = static_cast<MixerParticipant*>(
+			highestItem->GetItem());
+
+		//AudioFrame* audioFrame = NULL;
+		//if (_audioFramePool->PopMemory(audioFrame) == -1)
+		//{
+		//	WEBRTC_TRACE(kTraceMemory, kTraceAudioMixerServer, _id,
+		//		"failed PopMemory() call");
+		//	assert(false);
+		//	return;
+		//}
+
+		//if (participant->GetAudioFrame(_id, *audioFrame) != 0)
+		//{
+		//	WEBRTC_TRACE(kTraceWarning, kTraceAudioMixerServer, _id,
+		//		"failed to GetAudioFrame() from participant");
+		//	_audioFramePool->PushMemory(audioFrame);
+		//}
+		//CalculateEnergy(*audioFrame);
+		//_audioFramePool->PushMemory(audioFrame);
+		if(participant->_mixHistory->_weight > 0)
+			participant->_mixHistory->_weight--;
+	}
     assert(activeList.GetSize() <= maxAudioFrameCounter);
     // At this point it is known which participants should be mixed. Transfer
     // this information to this functions output parameters.

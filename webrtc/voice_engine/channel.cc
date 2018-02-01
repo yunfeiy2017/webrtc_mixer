@@ -941,7 +941,17 @@ WebRtc_Word32 Channel::GetAudioFrame(const WebRtc_Word32 id,
 		int ret = fwrite(audioFrame.data_, 1, _frameDataSize, _outFile);
 		(void)ret;
 	}
-
+	/*if (_inFile == NULL)
+	{
+		char name[256];
+		sprintf(name, "C:\\voip\\test\\%d.pcm", _channelId);
+		_inFile = fopen(name, "rb");
+	}
+	if (_inFile)
+	{
+		fread(audioFrame.data_, 2, 80, _inFile);
+	}
+	audioFrame.vad_activity_ = AudioFrame::kVadActive;*/
     return 0;
 }
 
@@ -1213,7 +1223,8 @@ Channel::Channel(const WebRtc_Word32 channelId,
     _RxVadDetection(false),
     _rxApmIsEnabled(false),
     _rxAgcIsEnabled(false),
-    _rxNsIsEnabled(false)
+    _rxNsIsEnabled(false),
+	_inFile(NULL)
 {
     WEBRTC_TRACE(kTraceMemory, kTraceVoice, VoEId(_instanceId,_channelId),
                  "Channel::Channel() - ctor");

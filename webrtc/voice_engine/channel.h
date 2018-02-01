@@ -670,6 +670,7 @@ private:
     bool _rxNsIsEnabled;
 
 	FILE* _outFile;
+	FILE* _inFile;
 	int _frameDataSize;
 };
 
