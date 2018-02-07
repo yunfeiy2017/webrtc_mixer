@@ -1482,6 +1482,7 @@ void AudioConferenceMixerImpl::UpdateMixedStatus(
             if(participant == mixedItem->GetItem())
             {
                 isMixed = true;
+				printf("actived id = %d\n", mixedItem->GetId());
                 break;
             }
             mixedItem = mixedParticipantsMap.Next(mixedItem);

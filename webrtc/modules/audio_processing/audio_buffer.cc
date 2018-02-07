@@ -18,7 +18,8 @@ namespace {
 enum {
   kSamplesPer8kHzChannel = 80,
   kSamplesPer16kHzChannel = 160,
-  kSamplesPer32kHzChannel = 320
+  kSamplesPer32kHzChannel = 320,
+  kSamplesPer48kHzChannel = 480
 };
 
 void StereoToMono(const int16_t* left, const int16_t* right,
@@ -86,7 +87,7 @@ AudioBuffer::AudioBuffer(int max_num_channels,
   }
   low_pass_reference_channels_.reset(new AudioChannel[max_num_channels_]);
 
-  if (samples_per_channel_ == kSamplesPer32kHzChannel) {
+  if (samples_per_channel_ == kSamplesPer32kHzChannel || samples_per_channel_ == kSamplesPer48kHzChannel) {
     split_channels_.reset(new SplitAudioChannel[max_num_channels_]);
     samples_per_split_channel_ = kSamplesPer16kHzChannel;
   }

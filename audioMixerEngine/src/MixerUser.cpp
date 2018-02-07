@@ -94,6 +94,8 @@ namespace mixerengine {
 		CodecInst codec;
 		m_mixerConf._veCodecPtr->GetSendCodec(_voeChannel, codec);
 		int pltye = lpRecvData[1] & 0x7f;
+		if (pltye == 98 || pltye == 100 || pltye == 13 || pltye == 99)//ÊæÊÊÔëÒô¹ýÂË
+			return;
 		if (codec.pltype != pltye)
 		{
 			m_mixerConf._veBasePtr->StopSend(_voeChannel);

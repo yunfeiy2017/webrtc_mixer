@@ -26,6 +26,9 @@ using namespace audioechocancellation;
 namespace webrtc {
 
 typedef void Handle;
+#ifdef WEBRTC_AEC_DEBUG_DUMP
+static int instance = 0;
+#endif
 
 namespace {
 #ifndef USE_NEW_WEBRTC_AEC
@@ -81,7 +84,13 @@ int EchoCancellationImpl::ProcessRenderAudio(const AudioBuffer* audio) {
 
   assert(audio->samples_per_split_channel() <= 160);
   assert(audio->num_channels() == apm_->num_reverse_channels());
-
+#ifdef WEBRTC_AEC_DEBUG_DUMP
+  if (fout)
+  {
+	  fwrite(audio->low_pass_split_data(0), 2, audio->samples_per_split_channel(), fout);
+	  fflush(fout);
+  }
+#endif
   int err = apm_->kNoError;
 
   // The ordering convention must be followed to pass to the correct AEC.
@@ -338,13 +347,16 @@ int EchoCancellationImpl::GetDelayMetrics(int* median, int* std) {
 }
 
 int EchoCancellationImpl::Initialize() {
-  int err = ProcessingComponent::Initialize();
-  if (err != apm_->kNoError || !is_component_enabled()) {
-    return err;
-  }
+	int err = ProcessingComponent::Initialize();
+	if (err != apm_->kNoError || !is_component_enabled()) {
+		return err;
+	}
 
-  was_stream_drift_set_ = false;
-
+	was_stream_drift_set_ = false;
+	char name[256];
+	sprintf(name, "C:\\voip\\echo%d.pcm", instance);
+  fout = fopen(name, "wb");
+  instance++;
   return apm_->kNoError;
 }
 
@@ -370,6 +382,10 @@ int EchoCancellationImpl::DestroyHandle(void* handle) const {
   CAudioEchoCancellation::Destroy((CAudioEchoCancellation*)handle);
   return 0;
 #endif
+#ifdef WEBRTC_AEC_DEBUG_DUMP
+  if (fout)
+	  fclose(fout);
+#endif
 }
 
 int EchoCancellationImpl::InitializeHandle(void* handle) const {
@@ -379,6 +395,8 @@ int EchoCancellationImpl::InitializeHandle(void* handle) const {
                        apm_->sample_rate_hz(),
                        device_sample_rate_hz_);
 #else
+  CAudioEchoCancellation* my_handle = static_cast<CAudioEchoCancellation*>(handle);
+  my_handle->Init(apm_->sample_rate_hz(), apm_->sample_rate_hz());
   return 0;
 #endif
 }

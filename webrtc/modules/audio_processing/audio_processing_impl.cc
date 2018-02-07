@@ -197,7 +197,7 @@ int AudioProcessingImpl::set_sample_rate_hz(int rate) {
   sample_rate_hz_ = rate;
   samples_per_channel_ = rate / 100;
 
-  if (sample_rate_hz_ == kSampleRate32kHz) {
+  if (sample_rate_hz_ == kSampleRate32kHz || sample_rate_hz_ == kSampleRate48kHz) {
     split_sample_rate_hz_ = kSampleRate16kHz;
   } else {
     split_sample_rate_hz_ = sample_rate_hz_;

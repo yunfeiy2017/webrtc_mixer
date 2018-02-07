@@ -29,6 +29,7 @@ namespace audioechocancellation {
 			unsigned int nrOfSamples,
 			short msInSndCardBuf,
 			int skew) = 0;
+		virtual int Init(int sampFreq, int scSampFreq) = 0;
 	};
 }
 

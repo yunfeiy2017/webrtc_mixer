@@ -1,7 +1,7 @@
 #pragma once
 namespace mixerengine {
 #define CONF_COUNT  1//2
-#define CONF_USER_COUNT  8
+#define CONF_USER_COUNT  4
 
 #define UDP_START_PORT 6666
 

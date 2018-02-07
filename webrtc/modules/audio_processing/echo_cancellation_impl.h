@@ -71,6 +71,7 @@ class EchoCancellationImpl : public EchoCancellation,
   bool was_stream_drift_set_;
   bool stream_has_echo_;
   bool delay_logging_enabled_;
+  FILE* fout;
 };
 }  // namespace webrtc
 
